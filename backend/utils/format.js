@@ -10,6 +10,8 @@ function formatDate(dateString) {
 }
 
 function toISODate(value = "") {
+  // Treat empty string, null, and undefined as falsy to allow fallback to extracted date
+  if (!value || value === "") return "";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "";
   return d.toISOString().split("T")[0];

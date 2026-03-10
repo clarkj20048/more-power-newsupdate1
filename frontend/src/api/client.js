@@ -1,15 +1,21 @@
-// Backend API base URL - points to Render backend
-const API_BASE_URL = "https://mepc-energy-news-updates.onrender.com";
+// Backend API base URL. Empty string uses same-origin (dev proxy or deployed backend).
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 async function request(path, options = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const url = `${API_BASE_URL}${path}`;
+  
+  const fetchOptions = {
     credentials: "include",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       ...(options.headers || {})
     },
     ...options
-  });
+  };
+
+  const response = await fetch(url, fetchOptions);
 
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data.ok === false) {

@@ -173,6 +173,12 @@ textarea {
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 0.3rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.news-track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 .news-card {
@@ -498,25 +504,7 @@ textarea {
   transform: scale(1.1);
 }
 
-/* News track scroll animation */
-.news-track {
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) var(--bg-soft);
-}
-
-.news-track::-webkit-scrollbar {
-  height: 6px;
-}
-
-.news-track::-webkit-scrollbar-track {
-  background: var(--bg-soft);
-  border-radius: 3px;
-}
-
-.news-track::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 3px;
-}
+/* News track scroll animation - hidden */
 
 /* Enhanced button animations */
 .btn {

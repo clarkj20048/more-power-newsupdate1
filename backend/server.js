@@ -19,8 +19,9 @@ function createApp() {
       "http://localhost:3000"
     ];
     const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-      res.setHeader("Access-Control-Allow-Origin", origin);
+    // Allow if origin is in allowed list OR if it's a same-origin request (no origin header)
+    if (allowedOrigins.includes(origin) || !origin) {
+      res.setHeader("Access-Control-Allow-Origin", origin || "*");
     }
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
@@ -41,8 +42,8 @@ function createApp() {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production" ? true : false,
-        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 8
       }
     })

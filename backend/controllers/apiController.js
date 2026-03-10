@@ -37,7 +37,18 @@ function toClientNews(item) {
 
 async function buildNewsPayload(cleanedNews) {
   const fallbackDate = new Date().toISOString().split("T")[0];
-  const extracted = cleanedNews.sourceUrl ? await extractArticleData(cleanedNews.sourceUrl) : {};
+  let extracted = {};
+  if (cleanedNews.sourceUrl) {
+    try {
+      extracted = await extractArticleData(cleanedNews.sourceUrl);
+    } catch (error) {
+      extracted = {};
+    }
+  }
+
+  // If no image was extracted from URL, use a default energy-themed placeholder
+  const defaultImage = "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=600&fit=crop";
+  const image = cleanedNews.image || extracted.image || defaultImage;
 
   return {
     title: cleanedNews.title || extracted.title || "Untitled",
@@ -48,7 +59,7 @@ async function buildNewsPayload(cleanedNews) {
       cleanedNews.content ||
       extracted.content ||
       `Article details were sourced from: ${cleanedNews.sourceUrl || "N/A"}`,
-    image: cleanedNews.image || extracted.image || "https://images.unsplash.com/photo-1473448912268-2022ce9509d8",
+    image: image,
     category: cleanedNews.category
   };
 }
