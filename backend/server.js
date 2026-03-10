@@ -13,8 +13,8 @@ function createApp() {
   // CORS configuration for cross-origin requests
   app.use((req, res, next) => {
     const allowedOrigins = [
-      "https://mepc-energy-news-updates.vercel.app",
-      "https://mepc-energy-news-updates.vercel.app/",
+      "https://more-power-newsupdate1.vercel.app",
+      "https://more-power-newsupdate1.vercel.app/",
       "http://localhost:5173",
       "http://localhost:3000"
     ];
